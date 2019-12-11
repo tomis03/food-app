@@ -1,60 +1,62 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+    <NavBar />
+    <SideMenu />
     <v-content>
-      <HelloWorld/>
+      <v-container class="full_height">
+        <vue-page-transition name="fade" class="full_height">
+          <router-view />
+        </vue-page-transition>
+      </v-container>
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
 export default {
-  name: 'App',
-
+  data: () => ({}),
   components: {
-    HelloWorld,
+    NavBar: () => import("@/components/NavBar.vue"),
+    SideMenu: () => import("@/components/SideMenu.vue")
   },
-
-  data: () => ({
-    //
-  }),
+  mounted() {
+    for (let i = 0; i <= 9; i++) {
+      this.$axios
+        .get("https://www.themealdb.com/api/json/v1/1/random.php")
+        .then(res => {
+          this.$store.commit("addMeal", res.data.meals[0]);
+        });
+    }
+  }
 };
 </script>
+
+<style lang="scss">
+.v-application {
+  .v-application--wrap {
+    p {
+      margin: 0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .full_height {
+      height: 100%;
+    }
+
+    .v-btn {
+      text-transform: none;
+    }
+
+    .v-toolbar__content {
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1185px;
+    }
+  }
+}
+</style>
