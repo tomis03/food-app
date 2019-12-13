@@ -16,7 +16,22 @@ export default new Vuex.Store({
         name: "favourites"
       }
     ],
-    meals: []
+    meals: [],
+    filters: [{
+        filterName: "Category",
+        filterItems: []
+      },
+      {
+        filterName: "Area",
+        filterItems: []
+      },
+      {
+        filterName: "Tags",
+        filterItems: []
+      }
+    ],
+    filterMeals: [],
+    activeFilters: []
   },
   mutations: {
     changeSideMenuStatus(state) {
@@ -26,7 +41,8 @@ export default new Vuex.Store({
       state.showFilterDialog = !state.showFilterDialog;
     },
     addMeal(state, newMeal) {
-      state.meals.push(newMeal)
+      state.meals.push(...newMeal);
+      state.filterMeals.push(...newMeal);
     }
   },
   actions: {},

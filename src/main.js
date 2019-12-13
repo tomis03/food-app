@@ -16,5 +16,24 @@ new Vue({
   router,
   store,
   vuetify,
+  mounted() {
+    console.log(this);
+    // Get meals from localStorage or if don't exist get from API
+    if (localStorage.getItem("meals")) {
+      this.$store.commit("addMeal", JSON.parse(localStorage.getItem("meals")));
+    } else {
+      for (let i = 0; i <= 9; i++) {
+        this.$axios
+          .get("https://www.themealdb.com/api/json/v1/1/random.php")
+          .then(res => {
+            this.$store.commit("addMeal", [res.data.meals[0]]);
+            localStorage.setItem(
+              "meals",
+              JSON.stringify(this.$store.state.meals)
+            );
+          });
+      }
+    }
+  },
   render: h => h(App)
 }).$mount('#app')

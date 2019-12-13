@@ -14,19 +14,9 @@
 
 <script>
 export default {
-  data: () => ({}),
   components: {
     NavBar: () => import("@/components/NavBar.vue"),
     SideMenu: () => import("@/components/SideMenu.vue")
-  },
-  mounted() {
-    for (let i = 0; i <= 9; i++) {
-      this.$axios
-        .get("https://www.themealdb.com/api/json/v1/1/random.php")
-        .then(res => {
-          this.$store.commit("addMeal", res.data.meals[0]);
-        });
-    }
   }
 };
 </script>
