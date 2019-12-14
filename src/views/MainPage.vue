@@ -3,6 +3,24 @@
     <v-row :class="['ma-0', $vuetify.breakpoint.mdAndUp ? 'full_height' : '']">
       <v-col v-if="$vuetify.breakpoint.mdAndUp" class="elevation-1 col-12 col-md-3 full_height">
         <p class="title font-weight-bold">Filter by:</p>
+        <template v-if="$store.state.filters">
+          <div class="py-3" v-for="(filter, index) in $store.state.filters" :key="`filter${index}`">
+            <p class="subtitle-1 font-weight-bold">{{filter.filterName}}</p>
+            <v-checkbox
+              hide-details
+              dense
+              class="mt-1"
+              color="deep-orange darken-2"
+              v-for="item in filter.filterItems"
+              :key="`item${item}`"
+              :label="`${item}`"
+            >
+              <template v-slot:label>
+                <span class="filter_text subtitle-2 font-weight-regular">{{item}}</span>
+              </template>
+            </v-checkbox>
+          </div>
+        </template>
       </v-col>
       <v-btn
         v-if="$vuetify.breakpoint.smAndDown"
@@ -13,22 +31,24 @@
         @click="$store.commit('changeFilterDialogStatus')"
       >Filter</v-btn>
       <v-col
-        :class="['meal_container col-12 col-md-9 pa-0 d-flex flex-wrap justify-space-around', $vuetify.breakpoint.mdAndUp ? 'full_height' : '']"
+        :class="['meal_container col-12 col-md-9 pa-0', $vuetify.breakpoint.mdAndUp ? 'full_height' : '']"
       >
         <div
           v-for="(meal, index) in $store.state.meals"
           :key="`meal${index}`"
           class="meal px-3 pb-6"
         >
-          <v-card outlined class="elevation-2" max-width="300">
-            <v-img :src="meal.strMealThumb" :lazy-src="meal.strMealThumb" width="260" height="210">
+          <v-card outlined class="elevation-2 mx-auto" max-width="300">
+            <v-img :src="meal.strMealThumb" :lazy-src="meal.strMealThumb" width="100%" height="210">
               <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center">
                   <v-progress-circular indeterminate color="grey darken-5"></v-progress-circular>
                 </v-row>
               </template>
             </v-img>
-            <p class="subtitle-1 font-weight-bold text-center px-2 py-3">{{meal.strMeal}}</p>
+            <p
+              class="meal_title subtitle-1 font-weight-bold text-center px-2 py-3 mx-auto"
+            >{{meal.strMeal}}</p>
           </v-card>
         </div>
       </v-col>
@@ -53,7 +73,24 @@ export default {};
     }
   }
 
+  .filter_text {
+    max-width: 180px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .meal_title {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   .meal_container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
     .meal .v-card {
       cursor: pointer;
 
