@@ -17,6 +17,7 @@ export default new Vuex.Store({
       }
     ],
     meals: [],
+    mealsToShow: [],
     filters: {
       category: {
         filterName: "Category",
@@ -31,8 +32,12 @@ export default new Vuex.Store({
         filterItems: []
       }
     },
-    filterMeals: [],
-    activeFilters: []
+    activeFilters: {
+      category: [],
+      area: [],
+      tags: []
+    },
+    searchText: null
   },
   mutations: {
     changeSideMenuStatus(state) {
@@ -41,10 +46,13 @@ export default new Vuex.Store({
     changeFilterDialogStatus(state) {
       state.showFilterDialog = !state.showFilterDialog;
     },
-    addMealAndFiltersToStore(state, newMeal) {
-      state.meals.push(...newMeal);
-      state.filterMeals.push(...newMeal);
-      newMeal.forEach(meal => {
+    changeSearchText(state, data) {
+      state.searchText = data;
+    },
+    addMealAndFiltersToStore(state, data) {
+      state.meals.push(...data);
+      state.mealsToShow.push(...data);
+      data.forEach(meal => {
         if (meal.strCategory != null) {
           state.filters.category.filterItems.push(meal.strCategory);
         }
@@ -58,6 +66,16 @@ export default new Vuex.Store({
       state.filters.category.filterItems = [...new Set(state.filters.category.filterItems)];
       state.filters.area.filterItems = [...new Set(state.filters.area.filterItems)];
       state.filters.tags.filterItems = [...new Set(state.filters.tags.filterItems)];
+    },
+    changeMealsToShow(state, data) {
+      state.mealsToShow = [...data];
+    },
+    clearActiveFilters(state) {
+      state.activeFilters = {
+        category: [],
+        area: [],
+        tags: []
+      };
     }
   },
   actions: {},

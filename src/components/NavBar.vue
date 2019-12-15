@@ -15,9 +15,10 @@
         prepend-inner-icon="mdi-magnify"
         append-icon
         no-data-text="No meals"
+        v-model="$store.state.searchText"
         placeholder="Search your meal"
-        :items="components"
         class="search_bar"
+        @input="searchMeals(); $store.commit('clearActiveFilters');"
       ></v-text-field>
       <v-spacer />
       <v-btn outlined v-if="$vuetify.breakpoint.smAndUp">
@@ -29,22 +30,18 @@
 </template>
 
 <script>
+import { debounce } from "lodash";
+
 export default {
-  data() {
-    return {
-      components: [
-        "Autocompletes",
-        "Comboboxes",
-        "Forms",
-        "Inputs",
-        "Overflow Buttons",
-        "Selects",
-        "Selection Controls",
-        "Sliders",
-        "Textareas",
-        "Text Fields"
-      ]
-    };
+  methods: {
+    // Searching meals by typed text
+    searchMeals: debounce(function() {
+      let searchedMeals = this.$store.state.meals.filter(meal => {
+        let regex = new RegExp(`${this.$store.state.searchText || ""}`, "i");
+        return meal.strMeal.match(regex);
+      });
+      this.$store.commit("changeMealsToShow", searchedMeals);
+    }, 500)
   }
 };
 </script>

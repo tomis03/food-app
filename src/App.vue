@@ -22,6 +22,16 @@ export default {
 </script>
 
 <style lang="scss">
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
+.v-dialog {
+  .v-btn {
+    text-transform: none;
+  }
+}
+
 .v-application {
   .v-application--wrap {
     p {
