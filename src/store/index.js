@@ -37,7 +37,8 @@ export default new Vuex.Store({
       area: [],
       tags: []
     },
-    searchText: null
+    searchText: null,
+    favourites: []
   },
   mutations: {
     changeSideMenuStatus(state) {
@@ -76,6 +77,18 @@ export default new Vuex.Store({
         area: [],
         tags: []
       };
+    },
+    toogleFavourite(state, data) {
+      if (state.favourites.includes(data)) {
+        state.favourites.splice(state.favourites.indexOf(data), 1);
+        localStorage.setItem('favourites', JSON.stringify(state.favourites));
+      } else {
+        state.favourites.push(data);
+        localStorage.setItem('favourites', JSON.stringify(state.favourites));
+      }
+    },
+    addFavouritesFromLocalStorage(state, data) {
+      state.favourites = data;
     }
   },
   actions: {},

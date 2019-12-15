@@ -21,10 +21,7 @@
         @input="searchMeals(); $store.commit('clearActiveFilters');"
       ></v-text-field>
       <v-spacer />
-      <v-btn outlined v-if="$vuetify.breakpoint.smAndUp">
-        <span class="mr-2">Favourites</span>
-        <v-icon small>mdi-heart-outline</v-icon>
-      </v-btn>
+      <FavouritesMenu />
     </v-container>
   </v-app-bar>
 </template>
@@ -33,6 +30,9 @@
 import { debounce } from "lodash";
 
 export default {
+  components: {
+    FavouritesMenu: () => import("@/components/FavouriteMenu.vue")
+  },
   methods: {
     // Searching meals by typed text
     searchMeals: debounce(function() {
@@ -49,5 +49,13 @@ export default {
 <style lang="scss">
 .search_bar {
   max-width: 350px;
+}
+
+.favourite_menu_text {
+  widows: 100%;
+  max-width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

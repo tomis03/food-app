@@ -16,7 +16,7 @@
         :class="[
             'col-12 col-md-9 pa-0',
             $vuetify.breakpoint.mdAndUp ? 'full_height' : '',
-            $store.state.mealsToShow == 0 ? '' : 'meal_container'
+            $store.state.mealsToShow == 0 ? '' : 'meals_container'
         ]"
       >
         <template v-if="$store.state.mealsToShow.length > 0">
@@ -90,7 +90,7 @@ export default {
     white-space: nowrap;
   }
 
-  .meal_container {
+  .meals_container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 

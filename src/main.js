@@ -40,6 +40,10 @@ new Vue({
           });
       }
     }
+    // Get favourites from localStorage
+    if (localStorage.getItem('favourites')) {
+      store.commit('addFavouritesFromLocalStorage', JSON.parse(localStorage.getItem("favourites")))
+    }
   },
   watch: {
     // Changing meals if filters changed
