@@ -14,7 +14,7 @@
           :title="`${item}`"
           :value="`${item}`"
           v-model="$store.state.activeFilters[index]"
-          @change="clearSearchInput"
+          @change="clearSearchInput(); $store.dispatch('removeMealInfo');"
         >
           <template v-slot:label>
             <span class="filter_text subtitle-1">{{item}}</span>

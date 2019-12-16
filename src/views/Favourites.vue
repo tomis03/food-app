@@ -1,15 +1,13 @@
 <template>
   <div id="favourite_page">
-    <div
-      :class="[$vuetify.breakpoint.mdAndUp ? 'full_height' : '', $store.state.mealsToShow == 0 ? '' : 'favourites_container']"
-    >
+    <v-row class="ma-0 favourites_container">
       <template v-if="$store.state.favourites.length > 0">
-        <div
+        <v-col
           v-for="(item, index) in $store.state.favourites"
           :key="`meal${index}`"
-          class="pb-6 px-3"
+          class="col-12 col-sm-6 col-md-4"
         >
-          <v-card outlined class="favourite_container elevation-2 mx-auto" max-width="300">
+          <v-card outlined class="meal elevation-2 mx-auto" max-width="300">
             <v-img
               :src="favouriteMeal(item, 'strMealThumb')"
               :lazy-src="favouriteMeal(item, 'strMealThumb')"
@@ -36,14 +34,16 @@
               class="meal_title subtitle-1 font-weight-bold text-center px-2 py-3 mx-auto"
             >{{favouriteMeal(item, 'strMeal')}}</p>
           </v-card>
-        </div>
+        </v-col>
       </template>
       <template v-else>
-        <p
-          class="headline font-weight-bold text-center deep-orange--text text-darken-2 mt-6"
-        >No favourites</p>
+        <v-col class="col-12">
+          <p
+            class="headline font-weight-bold text-center deep-orange--text text-darken-2 mt-6"
+          >No favourites</p>
+        </v-col>
       </template>
-    </div>
+    </v-row>
   </div>
 </template>
 
@@ -62,30 +62,4 @@ export default {
 </script>
 
 <style lang="scss">
-.favourites_container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-
-  .meal_title {
-    max-width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .favourite_container {
-    cursor: pointer;
-  }
-
-  .meal_image {
-    position: relative;
-
-    .favourite_btn {
-      position: absolute;
-      bottom: 5px;
-      right: 5px;
-      background-color: rgba(255, 255, 255, 0.6);
-    }
-  }
-}
 </style>

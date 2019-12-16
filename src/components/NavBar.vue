@@ -36,12 +36,16 @@ export default {
   methods: {
     // Searching meals by typed text
     searchMeals: debounce(function() {
+      this.$store.dispatch("removeMealInfo");
+      if (this.$route.name != "mainPage") {
+        this.$router.push({ name: "mainPage" });
+      }
       let searchedMeals = this.$store.state.meals.filter(meal => {
         let regex = new RegExp(`${this.$store.state.searchText || ""}`, "i");
         return meal.strMeal.match(regex);
       });
       this.$store.commit("changeMealsToShow", searchedMeals);
-    }, 500)
+    }, 501)
   }
 };
 </script>

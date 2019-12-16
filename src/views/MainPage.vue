@@ -4,28 +4,28 @@
       <v-col v-if="$vuetify.breakpoint.mdAndUp" class="elevation-1 col-12 col-md-3 full_height">
         <Filters />
       </v-col>
-      <v-btn
-        v-if="$vuetify.breakpoint.smAndDown"
-        outlined
-        color="deep-orange darken-2"
-        large
-        class="px-10 mb-3 subtitle-1 font-weight-bold"
-        @click="$store.commit('changeFilterDialogStatus')"
-      >Filter</v-btn>
-      <v-col
-        :class="[
-            'col-12 col-md-9 pa-0',
-            $vuetify.breakpoint.mdAndUp ? 'full_height' : '',
-            $store.state.mealsToShow == 0 ? '' : 'meals_container'
-        ]"
-      >
+      <v-col class="col-12 px-0" v-if="$vuetify.breakpoint.smAndDown">
+        <v-btn
+          outlined
+          color="deep-orange darken-2"
+          large
+          class="px-10 subtitle-1 font-weight-bold"
+          @click="$store.commit('changeFilterDialogStatus')"
+        >Filter</v-btn>
+      </v-col>
+      <v-col class="col-12 col-md-9 pa-0 full_height">
         <template v-if="$store.state.mealsToShow.length > 0">
-          <Meal
-            v-for="(meal, index) in $store.state.mealsToShow"
-            :key="`meal${index}`"
-            class="meal px-3 pb-6"
-            :meal="meal"
-          />
+          <v-row class="ma-0 meals_container" id="meals_container">
+            <template v-for="(meal, index) in $store.state.mealsToShow">
+              <v-col
+                :key="`meal${index}`"
+                :id="meal.idMeal"
+                class="meal_container col-12 col-sm-6 col-md-4"
+              >
+                <Meal :meal="meal" />
+              </v-col>
+            </template>
+          </v-row>
         </template>
         <template v-else>
           <p
@@ -56,8 +56,8 @@
 <script>
 export default {
   components: {
-    Meal: () => import("@/components/Meal.vue"),
-    Filters: () => import("@/components/Filters.vue")
+    Meal: () => import("../components/Meal.vue"),
+    Filters: () => import("../components/Filters.vue")
   },
   methods: {
     toogleFilterDialog() {
@@ -80,37 +80,6 @@ export default {
   @media (min-width: 960px) {
     .full_height {
       max-height: calc(100vh - 80px);
-    }
-  }
-
-  .meal_title {
-    max-width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .meals_container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-
-    .meal .v-card {
-      cursor: pointer;
-
-      .v-image .v-image__image--cover {
-        transition-duration: 0.3s;
-      }
-
-      &:hover {
-        .v-image .v-image__image--cover {
-          transform: scale(1.1);
-        }
-      }
-    }
-
-    &::after {
-      content: "";
-      flex: auto;
     }
   }
 

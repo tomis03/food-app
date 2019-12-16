@@ -38,7 +38,9 @@ export default new Vuex.Store({
       tags: []
     },
     searchText: null,
-    favourites: []
+    favourites: [],
+    selectedMeal: null,
+    selectedMealId: null
   },
   mutations: {
     changeSideMenuStatus(state) {
@@ -89,8 +91,22 @@ export default new Vuex.Store({
     },
     addFavouritesFromLocalStorage(state, data) {
       state.favourites = data;
+    },
+    selectMeal(state, data) {
+      state.selectedMeal = data;
+    },
+    changeSelectedMealId(state, data) {
+      state.selectedMealId = data;
     }
   },
-  actions: {},
+  actions: {
+    removeMealInfo() {
+      if (document.getElementById("showed_meal_info")) {
+        document
+          .getElementById("showed_meal_info")
+          .parentNode.removeChild(document.getElementById("showed_meal_info"));
+      }
+    }
+  },
   modules: {}
 })

@@ -5,12 +5,12 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import axios from 'axios'
 import VuePageTransition from 'vue-page-transition'
-import SlideUpDown from 'vue-slide-up-down'
 import {
   mapState
 } from 'vuex'
-
-Vue.component('vue-slide-up-down', SlideUpDown)
+import {
+  debounce
+} from 'lodash'
 
 Vue.use(VuePageTransition)
 
@@ -48,7 +48,7 @@ new Vue({
   watch: {
     // Changing meals if filters changed
     activeFilters: {
-      handler: (newValue, oldValue) => {
+      handler: debounce((newValue, oldValue) => {
         let categoryItems = [];
         let areaItems = [];
         let tagsItems = [];
@@ -86,7 +86,7 @@ new Vue({
           "changeMealsToShow",
           [...new Set(filterItems)].length > 0 ? [...new Set(filterItems)] : store.state.meals
         );
-      },
+      }, 500),
       deep: true
     }
   },
