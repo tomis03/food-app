@@ -7,7 +7,12 @@
           :key="`meal${index}`"
           class="col-12 col-sm-6 col-md-4"
         >
-          <v-card outlined class="meal elevation-2 mx-auto" max-width="300">
+          <v-card
+            outlined
+            class="meal elevation-2 mx-auto"
+            max-width="300"
+            @click="searchMeal(item)"
+          >
             <v-img
               :src="favouriteMeal(item, 'strMealThumb')"
               :lazy-src="favouriteMeal(item, 'strMealThumb')"
@@ -56,6 +61,20 @@ export default {
     isFavourite(id) {
       if (this.$store.state.favourites.includes(id)) return "mdi-heart";
       else return "mdi-heart-outline";
+    },
+    // Search for meal
+    searchMeal(mealId) {
+      console.log(mealId);
+      this.$store.dispatch("removeMealInfo");
+      if (this.$route.name != "mainPage") {
+        this.$router.push({ name: "mainPage" });
+      }
+      let searchedMeals = this.$store.state.meals.filter(meal => {
+        let regex = new RegExp(mealId, "i");
+        return meal.idMeal.match(regex);
+      });
+      this.$store.commit("changeMealsToShow", searchedMeals);
+      this.$store.commit("changeSearchText", searchedMeals[0].strMeal);
     }
   }
 };

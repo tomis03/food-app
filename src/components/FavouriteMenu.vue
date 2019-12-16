@@ -9,7 +9,7 @@
     <v-list>
       <template v-if="$store.state.favourites.length > 0">
         <template v-for="(item, index) in $store.state.favourites">
-          <v-list-item v-if="index < 4" :key="`favourite${item}`" @click>
+          <v-list-item v-if="index < 4" :key="`favourite${item}`" @click="searchMeal(item)">
             <div class="d-flex">
               <v-img
                 :src="favouriteMeal(item, 'strMealThumb')"
@@ -49,6 +49,20 @@ export default {
     // Show favourite meal image or name
     favouriteMeal(id, key) {
       return this.$store.state.meals.filter(meal => meal.idMeal == id)[0][key];
+    },
+    // Search for meal
+    searchMeal(mealId) {
+      console.log(mealId);
+      this.$store.dispatch("removeMealInfo");
+      if (this.$route.name != "mainPage") {
+        this.$router.push({ name: "mainPage" });
+      }
+      let searchedMeals = this.$store.state.meals.filter(meal => {
+        let regex = new RegExp(mealId, "i");
+        return meal.idMeal.match(regex);
+      });
+      this.$store.commit("changeMealsToShow", searchedMeals);
+      this.$store.commit("changeSearchText", searchedMeals[0].strMeal);
     }
   }
 };
