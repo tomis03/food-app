@@ -23,7 +23,6 @@ new Vue({
   store,
   vuetify,
   mounted() {
-    console.log(this);
     // Get meals from localStorage or if don't exist get from API
     if (localStorage.getItem("meals")) {
       store.commit("addMealAndFiltersToStore", JSON.parse(localStorage.getItem("meals")));

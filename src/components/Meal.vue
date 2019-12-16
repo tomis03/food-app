@@ -41,6 +41,11 @@ export default {
   methods: {
     // Show meal info under row
     showMealInfo(el, mealId) {
+      document
+        .getElementById("main_page")
+        .getElementsByClassName("meal")
+        .forEach(el => (el.style.opacity = 0.5));
+      el.style.opacity = 1;
       //Check if meal info component exist and delete it
       if (
         document.getElementById("showed_meal_info") &&
@@ -49,6 +54,10 @@ export default {
         document
           .getElementById("showed_meal_info")
           .parentNode.removeChild(document.getElementById("showed_meal_info"));
+        document
+          .getElementById("main_page")
+          .getElementsByClassName("meal")
+          .forEach(el => (el.style.opacity = 1));
         return;
       } else if (document.getElementById("showed_meal_info")) {
         document

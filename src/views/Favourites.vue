@@ -64,7 +64,6 @@ export default {
     },
     // Search for meal
     searchMeal(mealId) {
-      console.log(mealId);
       this.$store.dispatch("removeMealInfo");
       if (this.$route.name != "mainPage") {
         this.$router.push({ name: "mainPage" });
