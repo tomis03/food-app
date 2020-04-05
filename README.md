@@ -8,3 +8,5 @@
 <li>Run command <code>npm install</code></li>
 <li>After installation run command <code>npm start</code></li>
 </ol>
+<h2>Demo</h2>
+See demo of carousel on heroku - https://tomis03.github.io/food-app/
